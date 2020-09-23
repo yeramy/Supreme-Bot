@@ -6,11 +6,8 @@ import time
 
 
 def order():
-
-
     # wait for checkout button element to load
     time.sleep(.3)
-
     # fill out checkout screen fields
     driver.find_element_by_id('order_billing_name').send_keys(keys['name'])
     driver.find_element_by_id('order_email').send_keys(keys['email'])
@@ -25,10 +22,9 @@ def order():
     driver.find_element_by_name('credit_card[year]').send_keys(keys['ey'])
 
     # Process payment click
-
+    time.sleep(.5)
+    driver.find_element_by_xpath("icheckbox_minimal").click()
     driver.find_element_by_name('commit').click()
-    driver.find_element_by_name('order[terms]').click()
-
 
 
 if __name__ == '__main__':

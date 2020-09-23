@@ -1,5 +1,4 @@
 keys = {
-    "product_url":"",
     "name":"Yeram Hwang",
     "email":"yeramy11@naver.com",
     "phone_number":"8188549678",
