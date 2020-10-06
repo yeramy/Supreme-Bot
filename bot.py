@@ -60,7 +60,13 @@ if __name__ == '__main__':
     driver.get('https://www.supremenewyork.com/shop/all')
 
     # Find items and add to cart
+    # to be adding whileloop for adding multiple items specified in the template.
     addToCart():
+
+    # Navigating back to main page
+
+    driver.navigate().back()
+
 
 
     # To cart
