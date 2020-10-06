@@ -26,16 +26,7 @@ def order():
     driver.find_element_by_xpath("icheckbox_minimal").click()
     driver.find_element_by_name('commit').click()
 
-
-if __name__ == '__main__':
-    # load chrome
-    driver = webdriver.Chrome(ChromeDriverManager().install())
-
-    # Goto Surpeme url
-    driver.get('https://www.supremenewyork.com/shop/all')
-
-    # Find items
-
+def addToCart():
     # Category selector
     category = driver.find_element_by_link_text(product['category'])
     category.click()
@@ -47,7 +38,7 @@ if __name__ == '__main__':
     time.sleep(1)
 
     # Color selector
-    w = "//button[@data-style-name='" + product['color']+ "']"
+    w = "//button[@data-style-name='" + product['color'] + "']"
     color = driver.find_element_by_xpath(w)
     color.click()
     time.sleep(.5)
@@ -60,6 +51,17 @@ if __name__ == '__main__':
     add = driver.find_element_by_xpath("//input[@name='commit']")
     add.click()
     time.sleep(.5)
+
+if __name__ == '__main__':
+    # load chrome
+    driver = webdriver.Chrome(ChromeDriverManager().install())
+
+    # Goto Surpeme url
+    driver.get('https://www.supremenewyork.com/shop/all')
+
+    # Find items and add to cart
+    addToCart():
+
 
     # To cart
     checkout = driver.find_element_by_xpath("//a[@class='button checkout']")
