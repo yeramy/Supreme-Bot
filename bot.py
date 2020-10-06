@@ -1,5 +1,5 @@
 from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager import ChromeDriverManager
 from config import keys
 from config import product
 import time
@@ -26,7 +26,7 @@ def order():
     driver.find_element_by_xpath("icheckbox_minimal").click()
     driver.find_element_by_name('commit').click()
 
-def addToCart():
+def addToCart(driver):
     # Category selector
     category = driver.find_element_by_link_text(product['category'])
     category.click()
@@ -52,6 +52,7 @@ def addToCart():
     add.click()
     time.sleep(.5)
 
+
 if __name__ == '__main__':
     # load chrome
     driver = webdriver.Chrome(ChromeDriverManager().install())
@@ -61,7 +62,7 @@ if __name__ == '__main__':
 
     # Find items and add to cart
     # to be adding whileloop for adding multiple items specified in the template.
-    addToCart():
+    addToCart(driver)
 
     # Navigating back to main page
 
