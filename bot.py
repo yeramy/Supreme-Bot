@@ -4,7 +4,6 @@ from config import keys
 from config import product
 import time
 
-driver = webdriver.Chrome(ChromeDriverManager().install())
 
 def order():
     # wait for checkout button element to load
@@ -27,7 +26,16 @@ def order():
     driver.find_element_by_xpath("icheckbox_minimal").click()
     driver.find_element_by_name('commit').click()
 
-def addToCart(driver):
+
+if __name__ == '__main__':
+    # load chrome
+    driver = webdriver.Chrome(ChromeDriverManager().install())
+
+    # Goto Surpeme url
+    driver.get('https://www.supremenewyork.com/shop/all')
+
+    # Find items
+
     # Category selector
     category = driver.find_element_by_link_text(product['category'])
     category.click()
@@ -39,7 +47,7 @@ def addToCart(driver):
     time.sleep(1)
 
     # Color selector
-    w = "//button[@data-style-name='" + product['color'] + "']"
+    w = "//button[@data-style-name='" + product['color']+ "']"
     color = driver.find_element_by_xpath(w)
     color.click()
     time.sleep(.5)
@@ -52,24 +60,6 @@ def addToCart(driver):
     add = driver.find_element_by_xpath("//input[@name='commit']")
     add.click()
     time.sleep(.5)
-
-
-if __name__ == '__main__':
-    # load chrome
-    driver = webdriver.Chrome(ChromeDriverManager().install())
-
-    # Goto Surpeme url
-    driver.get('https://www.supremenewyork.com/shop/all')
-
-    # Find items and add to cart
-    # to be adding whileloop for adding multiple items specified in the template.
-    addToCart(driver)
-
-    # Navigating back to main page
-
-    driver.navigate().back()
-
-
 
     # To cart
     checkout = driver.find_element_by_xpath("//a[@class='button checkout']")
