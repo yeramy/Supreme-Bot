@@ -1,9 +1,10 @@
 from selenium import webdriver
-from webdriver_manager import ChromeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
 from config import keys
 from config import product
 import time
 
+driver = webdriver.Chrome(ChromeDriverManager().install())
 
 def order():
     # wait for checkout button element to load
