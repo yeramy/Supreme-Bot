@@ -1,4 +1,5 @@
 from selenium import webdriver
+
 from webdriver_manager.chrome import ChromeDriverManager
 from config import keys
 from config import product
