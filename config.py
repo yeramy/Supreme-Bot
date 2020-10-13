@@ -12,7 +12,7 @@ keys = {
         "em": "01",
         "ey": "2020"
 }
-productn = {
+product = {
     "category":"",
     "keyword":"",
     "color":"",
