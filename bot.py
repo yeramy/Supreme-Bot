@@ -23,6 +23,8 @@ def order():
     driver.find_element_by_id('order[billing_country]').send_key(root[8].text)
 
 
+    ############# Continue from here 
+
 
     driver.find_element_by_id('orcer').send_keys(keys['cvv'])
     driver.find_element_by_id('rnsnckrn').send_keys(keys['cc'])
