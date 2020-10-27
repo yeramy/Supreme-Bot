@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <cardinfo>
-  <cardnum>Fill In Here</cardnum>
-  <expm>Fill In Here</expm>
-  <expy>Fill In Here</expy>
-  <cvv>Fill In Here</cvv>
+  <cardnum>1234123412341234</cardnum>
+  <expm>10</expm>
+  <expy>2021</expy>
+  <cvv>123</cvv>
 </cardinfo>

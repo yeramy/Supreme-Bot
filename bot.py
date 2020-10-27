@@ -1,7 +1,6 @@
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from config import product
-# from xml.dom import minidom
 import xml.etree.ElementTree as ET
 import time
 
@@ -11,6 +10,7 @@ def order():
 
     # wait for checkout button element to load
     time.sleep(.3)
+
     # fill out checkout screen fields
     driver.find_element_by_id('order_billing_name').send_keys(root[0].text)
     driver.find_element_by_id('order_email').send_keys(root[1].text)
@@ -20,20 +20,23 @@ def order():
     driver.find_element_by_id('order_billing_zip').send_keys(root[5].text)
     driver.find_element_by_id('order_billing_city').send_keys(root[6].text)
     driver.find_element_by_id('order_billing_state').send_keys(root[7].text)
-    driver.find_element_by_id('order[billing_country]').send_key(root[8].text)
+    driver.find_element_by_id('order_billing_country').send_keys(root[8].text)
 
 
-    ############# Continue from here 
+    # Credit card section fillout
+    tree = ET.parse('savedcinfo.xml')
+    root = tree.getroot()
 
+    driver.find_element_by_id('rnsnckrn').send_keys(root[0].text)
+    driver.find_element_by_name('credit_card[month]').send_keys(root[1].text)
+    driver.find_element_by_name('credit_card[year]').send_keys(root[2].text)
+    driver.find_element_by_id('orcer').send_keys(root[3].text)
 
-    driver.find_element_by_id('orcer').send_keys(keys['cvv'])
-    driver.find_element_by_id('rnsnckrn').send_keys(keys['cc'])
-    driver.find_element_by_name('credit_card[month]').send_keys(keys['em'])
-    driver.find_element_by_name('credit_card[year]').send_keys(keys['ey'])
+    # Check combo to confirm reading policy
+    driver.find_element_by_xpath('//*[@id="cart-cc"]/fieldset/p/label/div/ins').click()
 
     # Process payment click
     time.sleep(.5)
-    driver.find_element_by_xpath("icheckbox_minimal").click()
     driver.find_element_by_name('commit').click()
 
 
