@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<billinginfo>
+  <name>Fill in name here</name>
+  <email>Fill in email address here</email>
+  <phonenum>123456789</phonenum>
+  <address>Fill in address here</address>
+  <apt>Fill in apt number here</apt>
+  <zip>Fill in zip code here</zip>
+  <city>Fill in city here</city>
+  <state>CA</state> <!-- Only Type in two character coding for state -->
+  <country>USA</country>
+</billinginfo>
