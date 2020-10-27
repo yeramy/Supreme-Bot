@@ -13,8 +13,7 @@ keys = {
         "ey": "2020"
 }
 product = {
-    "category":"",
-    "keyword":"",
-    "color":"",
-    #"size":"this can be configured in main source code"
+    "category":"jackets",
+    "keyword":"Racing",
+    "color":"Black"
 }

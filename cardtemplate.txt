@@ -1,4 +1,0 @@
-Card Number: ['FillIn'];
-Experation Month: ['FillIn'];
-Experation Year: ['FillIn'];
-CVV: ['FillIn'];
