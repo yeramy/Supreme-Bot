@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+
+
+<billinginfo>
+  <name>Fill In Here</name>
+  <phonenum>Fill In Here</phonenum>
+  <address>Fill In Here</address>
+  <apt>Fill In Here</apt>
+  <zip>Fill In Here</zip>
+  <city>Fill In Here</city>
+  <state>Fill In Here</state>
+  <country>Fill In Here</country>
+</billinginfo>
+
+<cardinfo>
+  <cardnum>Fill In Here</cardnum>
+  <expm>Fill In Here</expm>
+  <expy>Fill In Here</expy>
+  <cvv>Fill In Here</cvv>
+</cardinfo>

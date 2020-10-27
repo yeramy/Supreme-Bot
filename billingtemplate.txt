@@ -1,8 +1,0 @@
-Name: ['FillIn'];
-PhoneNumber: ['FillIn'];
-Address: ['FillIn'];
-APT: ['FillIn'];
-ZIP: ['FillIn'];
-City: ['FillIn'];
-State: ['FillIn'];
-Country: ['FillIn'];
