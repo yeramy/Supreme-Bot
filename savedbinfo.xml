@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
 <billinginfo>
   <name>Fill In Here</name>
+  <email>Fill in email address</email>
   <phonenum>Fill In Here</phonenum>
   <address>Fill In Here</address>
   <apt>Fill In Here</apt>
   <zip>Fill In Here</zip>
   <city>Fill In Here</city>
-  <state>Fill In Here</state>
-  <country>Fill In Here</country>
+  <state>CA</state>
+  <country>USA</country>
 </billinginfo>
