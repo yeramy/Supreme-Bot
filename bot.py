@@ -1,6 +1,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from selenium import webdriver
+from PyQt5.QtWidgets import QTableWidgetItem
+
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from config import product
 
 import time
@@ -10,14 +15,23 @@ import os
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(660, 575)
+        MainWindow.resize(650, 575)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
+        MainWindow.setSizePolicy(sizePolicy)
+        MainWindow.setMinimumSize(QtCore.QSize(650, 575))
+        MainWindow.setMaximumSize(QtCore.QSize(650, 575))
+        MainWindow.setWindowOpacity(1.0)
         MainWindow.setAnimated(True)
         MainWindow.setDocumentMode(False)
         MainWindow.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setMaximumSize(QtCore.QSize(800, 575))
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(10, 0, 281, 21))
+        self.label.setGeometry(QtCore.QRect(410, 0, 281, 21))
         font = QtGui.QFont()
         font.setPointSize(13)
         self.label.setFont(font)
@@ -125,18 +139,33 @@ class Ui_MainWindow(object):
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.colorCombo)
         self.tableWidget = QtWidgets.QTableWidget(self.itemFrame)
         self.tableWidget.setGeometry(QtCore.QRect(240, 10, 401, 275))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.tableWidget.sizePolicy().hasHeightForWidth())
+        self.tableWidget.setSizePolicy(sizePolicy)
+        self.tableWidget.setMinimumSize(QtCore.QSize(401, 275))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.tableWidget.setFont(font)
         self.tableWidget.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.ArrowCursor))
+        self.tableWidget.setStyleSheet("")
         self.tableWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.tableWidget.setAutoScroll(True)
-        self.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
+        self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tableWidget.setAlternatingRowColors(True)
+        self.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.tableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.tableWidget.setShowGrid(True)
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(4)
         self.tableWidget.setRowCount(0)
+        
+        header = self.tableWidget.horizontalHeader()
+        header.setFrameStyle(QtWidgets.QFrame.Box | QtWidgets.QFrame.Plain)
+        header.setLineWidth(1)
+        self.tableWidget.setHorizontalHeader(header)
+        
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
@@ -147,11 +176,16 @@ class Ui_MainWindow(object):
         self.tableWidget.setHorizontalHeaderItem(3, item)
         self.tableWidget.horizontalHeader().setVisible(True)
         self.tableWidget.horizontalHeader().setCascadingSectionResizes(True)
+        self.tableWidget.horizontalHeader().setDefaultSectionSize(100)
+        self.tableWidget.horizontalHeader().setMinimumSectionSize(50)
+        self.tableWidget.horizontalHeader().setStretchLastSection(False)
         self.tableWidget.verticalHeader().setVisible(False)
         self.tableWidget.verticalHeader().setCascadingSectionResizes(False)
+        self.tableWidget.verticalHeader().setDefaultSectionSize(17)
         self.tableWidget.verticalHeader().setHighlightSections(True)
+        self.tableWidget.verticalHeader().setMinimumSectionSize(20)
         self.bilFrame = QtWidgets.QFrame(self.centralwidget)
-        self.bilFrame.setGeometry(QtCore.QRect(0, 310, 341, 171))
+        self.bilFrame.setGeometry(QtCore.QRect(0, 310, 341, 191))
         self.bilFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.bilFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.bilFrame.setObjectName("bilFrame")
@@ -199,14 +233,14 @@ class Ui_MainWindow(object):
         self.aptLine.setText("")
         self.aptLine.setObjectName("aptLine")
         self.zipLine = QtWidgets.QLineEdit(self.bilFrame)
-        self.zipLine.setGeometry(QtCore.QRect(10, 130, 75, 20))
+        self.zipLine.setGeometry(QtCore.QRect(10, 130, 51, 20))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.zipLine.setFont(font)
         self.zipLine.setText("")
         self.zipLine.setObjectName("zipLine")
         self.stateCbox = QtWidgets.QComboBox(self.bilFrame)
-        self.stateCbox.setGeometry(QtCore.QRect(180, 130, 69, 22))
+        self.stateCbox.setGeometry(QtCore.QRect(200, 130, 51, 22))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.stateCbox.setFont(font)
@@ -262,7 +296,7 @@ class Ui_MainWindow(object):
         self.stateCbox.addItem("")
         self.stateCbox.addItem("")
         self.countryCbox = QtWidgets.QComboBox(self.bilFrame)
-        self.countryCbox.setGeometry(QtCore.QRect(260, 130, 69, 22))
+        self.countryCbox.setGeometry(QtCore.QRect(258, 130, 71, 22))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.countryCbox.setFont(font)
@@ -271,14 +305,17 @@ class Ui_MainWindow(object):
         self.countryCbox.addItem("")
         self.countryCbox.addItem("")
         self.cityLine = QtWidgets.QLineEdit(self.bilFrame)
-        self.cityLine.setGeometry(QtCore.QRect(90, 130, 75, 20))
+        self.cityLine.setGeometry(QtCore.QRect(70, 130, 121, 20))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.cityLine.setFont(font)
         self.cityLine.setText("")
         self.cityLine.setObjectName("cityLine")
+        self.billLoadBut = QtWidgets.QPushButton(self.bilFrame)
+        self.billLoadBut.setGeometry(QtCore.QRect(230, 160, 101, 23))
+        self.billLoadBut.setObjectName("billLoadBut")
         self.ccFrame = QtWidgets.QFrame(self.centralwidget)
-        self.ccFrame.setGeometry(QtCore.QRect(0, 480, 341, 71))
+        self.ccFrame.setGeometry(QtCore.QRect(0, 500, 341, 71))
         self.ccFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.ccFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.ccFrame.setObjectName("ccFrame")
@@ -325,14 +362,17 @@ class Ui_MainWindow(object):
         self.expyCbox.addItem("")
         self.expyCbox.addItem("")
         self.cvvLine = QtWidgets.QLineEdit(self.ccFrame)
-        self.cvvLine.setGeometry(QtCore.QRect(170, 40, 113, 20))
+        self.cvvLine.setGeometry(QtCore.QRect(170, 40, 91, 20))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.cvvLine.setFont(font)
         self.cvvLine.setText("")
         self.cvvLine.setObjectName("cvvLine")
+        self.creLoadBut = QtWidgets.QPushButton(self.ccFrame)
+        self.creLoadBut.setGeometry(QtCore.QRect(270, 40, 61, 23))
+        self.creLoadBut.setObjectName("creLoadBut")
         self.frame = QtWidgets.QFrame(self.centralwidget)
-        self.frame.setGeometry(QtCore.QRect(340, 420, 311, 131))
+        self.frame.setGeometry(QtCore.QRect(340, 440, 311, 131))
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
@@ -356,23 +396,49 @@ class Ui_MainWindow(object):
         self.exitBut.setFont(font)
         self.exitBut.setObjectName("exitBut")
         MainWindow.setCentralWidget(self.centralwidget)
-        self.statusBar = QtWidgets.QStatusBar(MainWindow)
-        self.statusBar.setObjectName("statusBar")
-        MainWindow.setStatusBar(self.statusBar)
-        
         self.retranslateUi(MainWindow)
         
+        
+        ###### Signal and Socket #####
         self.addBut.clicked.connect(self.addTolist)
         self.deleteBut.clicked.connect(self.removeFromlist)
+        self.colorCombo.currentIndexChanged.connect(self.colorNotFound)
         
         self.exitBut.clicked.connect(MainWindow.close)
+        
         self.startBut.clicked.connect(self.initial)
+        self.startBut.clicked.connect(self.addToCart) 
         self.startBut.clicked.connect(self.fillout)
+        
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
+        MainWindow.setTabOrder(self.catCbox, self.sizeCbox)
+        MainWindow.setTabOrder(self.sizeCbox, self.ocolorLine)
+        MainWindow.setTabOrder(self.ocolorLine, self.colorCombo)
+        MainWindow.setTabOrder(self.colorCombo, self.keyLine)
+        MainWindow.setTabOrder(self.keyLine, self.addBut)
+        MainWindow.setTabOrder(self.addBut, self.deleteBut)
+        MainWindow.setTabOrder(self.deleteBut, self.tableWidget)
+        MainWindow.setTabOrder(self.tableWidget, self.nameLine)
+        MainWindow.setTabOrder(self.nameLine, self.emailLine)
+        MainWindow.setTabOrder(self.emailLine, self.numberLine)
+        MainWindow.setTabOrder(self.numberLine, self.addressLine)
+        MainWindow.setTabOrder(self.addressLine, self.aptLine)
+        MainWindow.setTabOrder(self.aptLine, self.zipLine)
+        MainWindow.setTabOrder(self.zipLine, self.cityLine)
+        MainWindow.setTabOrder(self.cityLine, self.stateCbox)
+        MainWindow.setTabOrder(self.stateCbox, self.countryCbox)
+        MainWindow.setTabOrder(self.countryCbox, self.billLoadBut)
+        MainWindow.setTabOrder(self.billLoadBut, self.ccnLine)
+        MainWindow.setTabOrder(self.ccnLine, self.expmCbox)
+        MainWindow.setTabOrder(self.expmCbox, self.expyCbox)
+        MainWindow.setTabOrder(self.expyCbox, self.cvvLine)
+        MainWindow.setTabOrder(self.cvvLine, self.creLoadBut)
+        MainWindow.setTabOrder(self.creLoadBut, self.startBut)
+        MainWindow.setTabOrder(self.startBut, self.pauseBut)
+        MainWindow.setTabOrder(self.pauseBut, self.exitBut)
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Supreme Bot"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Supreme Bot", "By Yeram Hwang"))
         self.label.setText(_translate("MainWindow", "Supreme Bot by Yeram Hwang"))
         self.catLabel.setText(_translate("MainWindow", "Category"))
         self.catCbox.setItemText(0, _translate("MainWindow", "Jackets"))
@@ -385,10 +451,10 @@ class Ui_MainWindow(object):
         self.catCbox.setItemText(7, _translate("MainWindow", "Acc"))
         self.catCbox.setItemText(8, _translate("MainWindow", "Skate"))
         self.sizeLab.setText(_translate("MainWindow", "Size"))
-        self.sizeCbox.setItemText(0, _translate("MainWindow", "S"))
-        self.sizeCbox.setItemText(1, _translate("MainWindow", "M"))
-        self.sizeCbox.setItemText(2, _translate("MainWindow", "L"))
-        self.sizeCbox.setItemText(3, _translate("MainWindow", "XL"))
+        self.sizeCbox.setItemText(0, _translate("MainWindow", "Small"))
+        self.sizeCbox.setItemText(1, _translate("MainWindow", "Medium"))
+        self.sizeCbox.setItemText(2, _translate("MainWindow", "Large"))
+        self.sizeCbox.setItemText(3, _translate("MainWindow", "XLarge"))
         self.colorLab.setText(_translate("MainWindow", "Color"))
         self.ocolorLine.setPlaceholderText(_translate("MainWindow", "Enter Color if not listed."))
         self.keyLab.setText(_translate("MainWindow", "Key Word"))
@@ -475,6 +541,7 @@ class Ui_MainWindow(object):
         self.countryCbox.setItemText(1, _translate("MainWindow", "Mexico"))
         self.countryCbox.setItemText(2, _translate("MainWindow", "Canada"))
         self.cityLine.setPlaceholderText(_translate("MainWindow", "City"))
+        self.billLoadBut.setText(_translate("MainWindow", "Load"))
         self.ccnLine.setPlaceholderText(_translate("MainWindow", "Credit Card Number"))
         self.expmCbox.setItemText(0, _translate("MainWindow", "Jan"))
         self.expmCbox.setItemText(1, _translate("MainWindow", "Feb"))
@@ -500,6 +567,7 @@ class Ui_MainWindow(object):
         self.expyCbox.setItemText(9, _translate("MainWindow", "2029"))
         self.expyCbox.setItemText(10, _translate("MainWindow", "2030"))
         self.cvvLine.setPlaceholderText(_translate("MainWindow", "CVV"))
+        self.creLoadBut.setText(_translate("MainWindow", "Load"))
         self.startBut.setText(_translate("MainWindow", "START!!!"))
         self.pauseBut.setText(_translate("MainWindow", "PAUSE"))
         self.exitBut.setText(_translate("MainWindow", "EXIT"))
@@ -511,65 +579,74 @@ class Ui_MainWindow(object):
 
         # Goto Surpeme url
         driver.get('https://www.supremenewyork.com/shop/all')
-
-        # Find items
+       
         
-        # Category selector
-        category = driver.find_element_by_link_text(product['category'])
-        category.click()
-        time.sleep(1)
-
-        # Item selector
-        item = driver.find_element_by_partial_link_text(product['keyword'])
-        item.click()
-        time.sleep(1)
-
-        # Color selector
-        w = "//button[@data-style-name='" + product['color']+ "']"
-        color = driver.find_element_by_xpath(w)
-        color.click()
-        time.sleep(.5)
-
-        # Size selector option 3 is for large
-        size = driver.find_element_by_xpath("//*[@id='s']/option[3]")
-        size.click()
-
-        # Add to cart
-        add = driver.find_element_by_xpath("//input[@name='commit']")
-        add.click()
-        time.sleep(.5)
-
-        # To cart
-        checkout = driver.find_element_by_xpath("//a[@class='button checkout']")
-        checkout.click()
+    def addToCart(self, MainWindow):
+        
+        for i in range(self.tableWidget.rowCount()):
+            # Category selection 
+            cattext = self.tableWidget.item(i,0).text().lower()
+            category = WebDriverWait(driver, 3).until(
+                EC.presence_of_element_located((By.LINK_TEXT, cattext))
+            )  
+            category.click()
+            
+            # Product selection 
+            keytext = self.tableWidget.item(i,3).text().capitalize()
+            product = WebDriverWait(driver, 3).until(
+                EC.presence_of_element_located((By.PARTIAL_LINK_TEXT, keytext))
+            )  
+            product.click()
+            
+            # Color selector
+            driver.implicitly_wait(2)
+            colortext = self.tableWidget.item(i,2).text()
+            tempXpath = "//button[@data-style-name='" + colortext + "']"
+            colorSel = driver.find_element_by_xpath(tempXpath)
+            colorSel.click()
+            
+            # Size selector
+            driver.implicitly_wait(1)
+            sizetext = self.tableWidget.item(i,1).text()
+            sizeXpath = "//*[@id='s']/option[. = '" + sizetext +  "']"
+            size = driver.find_element_by_xpath(sizeXpath)
+            size.click() 
+            
+            # Click add-to-cart button
+            addtocartBut = WebDriverWait(driver, 3).until(
+                EC.presence_of_element_located((By.NAME, "commit"))
+            )
+            addtocartBut.click()
+            time.sleep(.5)
+            
+            # Navigate back to the listing page 
+            driver.get('https://www.supremenewyork.com/shop/all')
         
     def fillout(self, MainWindow):
         # wait for checkout button element to load
-        time.sleep(.3)
-        tree = ET.parse('savedbinfo.xml')
-        root = tree.getroot()
-
-
-        # fill out checkout screen fields
-        driver.find_element_by_id('order_billing_name').send_keys(root[0].text)
-        driver.find_element_by_id('order_email').send_keys(root[1].text)
-        driver.find_element_by_id('order_tel').send_keys(root[2].text)
-        driver.find_element_by_id('bo').send_keys(root[3].text)
-        driver.find_element_by_id('oba3').send_keys(root[4].text)
-        driver.find_element_by_id('order_billing_zip').send_keys(root[5].text)
-        driver.find_element_by_id('order_billing_city').send_keys(root[6].text)
+        checkout = driver.find_element_by_xpath("//a[@class='button checkout']")
+        checkout.click()
         
-        driver.find_element_by_id('order_billing_state').send_keys(root[7].text)
-        driver.find_element_by_id('order_billing_country').send_keys(root[8].text)
+        # fill out checkout screen fields
+        driver.find_element_by_id('order_billing_name').send_keys(self.nameLine.text())
+        driver.find_element_by_id('order_email').send_keys(self.emailLine.text())
+        driver.find_element_by_id('order_tel').send_keys(self.numberLine.text())
+        driver.find_element_by_id('bo').send_keys(self.addressLine.text())
+        driver.find_element_by_id('oba3').send_keys(self.aptLine.text())
+        driver.find_element_by_id('order_billing_zip').send_keys(self.zipLine.text())
+        driver.find_element_by_id('order_billing_city').send_keys(self.cityLine.text())
+        
+        driver.find_element_by_id('order_billing_state').send_keys(self.stateCbox.currentText())
+        driver.find_element_by_id('order_billing_country').send_keys(self.countryCbox.currentText())
 
         # Credit Card info section
         tree = ET.parse('savedcinfo.xml')
         root = tree.getroot()
         
-        driver.find_element_by_id('rnsnckrn').send_keys(root[0].text)
-        driver.find_element_by_name('credit_card[month]').send_keys(root[1].text)
-        driver.find_element_by_name('credit_card[year]').send_keys(root[2].text)
-        driver.find_element_by_id('orcer').send_keys(root[3].text)
+        driver.find_element_by_id('rnsnckrn').send_keys(self.ccnLine.text())
+        driver.find_element_by_name('credit_card[month]').send_keys(self.expmCbox.currentText())
+        driver.find_element_by_name('credit_card[year]').send_keys(self.expyCbox.currentText())
+        driver.find_element_by_id('orcer').send_keys(self.cvvLine.text())
 
         # Process save address and term&condition check box click
         for combo in driver.find_elements_by_css_selector('.iCheck-helper'):
@@ -579,18 +656,27 @@ class Ui_MainWindow(object):
         driver.find_element_by_name('commit').click()
 
     def addTolist(self, MainWindow): 
-        print(self.catCbox.currentText())
-        print(self.sizeCbox.currentText())
-        print(self.colorCombo.currentText())
-        print(self.keyLine.text())
+        row = self.tableWidget.rowCount()
+        self.tableWidget.insertRow(row)
         
+        self.tableWidget.setItem(row, 0, QTableWidgetItem(self.catCbox.currentText()))
+        self.tableWidget.setItem(row, 1, QTableWidgetItem(self.sizeCbox.currentText()))
+        self.tableWidget.setItem(row, 2, QTableWidgetItem(self.colorCombo.currentText()))
+        self.tableWidget.setItem(row, 3, QTableWidgetItem(self.keyLine.text()))
         
-        self.tableWidget.insertRow(0)
-        #self.tableWidget.set
-    
-    def removeFromlist():
+    def removeFromlist(self, MainWindow):
+        self.tableWidget.removeRow(self.tableWidget.currentRow())
+        
+    def checkBlank():
         pass
-    
+        
+    def colorNotFound(self, MainWindow):
+        if(self.colorCombo.currentText() == 'Others'):
+            self.ocolorLine.setEnabled(True)
+        else:
+            self.colorCombo.update()
+            self.ocolorLine.setEnabled(False)
+        
 
 
 if __name__ == "__main__":
