@@ -5,9 +5,11 @@ and proceed to confirming payments. You are free to use this but cannot guarante
 Testing phase as of 11/06/2020
 
 # Requirements:
-  Python
+  -Python
   
-  webdriver-manger
+  -webdriver-manger
   
-  PyQt5
+  -PyQt5
+  
+  -selenium
   
