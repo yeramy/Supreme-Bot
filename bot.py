@@ -1,16 +1,17 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QTableWidgetItem
+from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog
+from PyQt5.QtGui import *
 
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from config import product
 
 import time
 import xml.etree.ElementTree as ET
 import os
+import sys
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -160,12 +161,12 @@ class Ui_MainWindow(object):
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(4)
         self.tableWidget.setRowCount(0)
-        
+        ###### modified #####
         header = self.tableWidget.horizontalHeader()
         header.setFrameStyle(QtWidgets.QFrame.Box | QtWidgets.QFrame.Plain)
         header.setLineWidth(1)
         self.tableWidget.setHorizontalHeader(header)
-        
+        ###### modified ######
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
@@ -327,7 +328,7 @@ class Ui_MainWindow(object):
         self.ccnLine.setText("")
         self.ccnLine.setObjectName("ccnLine")
         self.expmCbox = QtWidgets.QComboBox(self.ccFrame)
-        self.expmCbox.setGeometry(QtCore.QRect(10, 40, 69, 22))
+        self.expmCbox.setGeometry(QtCore.QRect(10, 40, 81, 22))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.expmCbox.setFont(font)
@@ -345,7 +346,7 @@ class Ui_MainWindow(object):
         self.expmCbox.addItem("")
         self.expmCbox.addItem("")
         self.expyCbox = QtWidgets.QComboBox(self.ccFrame)
-        self.expyCbox.setGeometry(QtCore.QRect(90, 40, 69, 22))
+        self.expyCbox.setGeometry(QtCore.QRect(98, 40, 81, 22))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.expyCbox.setFont(font)
@@ -362,7 +363,7 @@ class Ui_MainWindow(object):
         self.expyCbox.addItem("")
         self.expyCbox.addItem("")
         self.cvvLine = QtWidgets.QLineEdit(self.ccFrame)
-        self.cvvLine.setGeometry(QtCore.QRect(170, 40, 91, 20))
+        self.cvvLine.setGeometry(QtCore.QRect(190, 40, 71, 20))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.cvvLine.setFont(font)
@@ -400,15 +401,23 @@ class Ui_MainWindow(object):
         
         
         ###### Signal and Socket #####
+        
         self.addBut.clicked.connect(self.addTolist)
         self.deleteBut.clicked.connect(self.removeFromlist)
         self.colorCombo.currentIndexChanged.connect(self.colorNotFound)
         
-        self.exitBut.clicked.connect(MainWindow.close)
+        self.billLoadBut.clicked.connect(self.loadBill)
+        self.creLoadBut.clicked.connect(self.loadCre)
+        
         
         self.startBut.clicked.connect(self.initial)
         self.startBut.clicked.connect(self.addToCart) 
         self.startBut.clicked.connect(self.fillout)
+        self.exitBut.clicked.connect(MainWindow.close)
+        
+        
+        ###### Signal and Socket END #####
+        
         
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         MainWindow.setTabOrder(self.catCbox, self.sizeCbox)
@@ -436,6 +445,7 @@ class Ui_MainWindow(object):
         MainWindow.setTabOrder(self.creLoadBut, self.startBut)
         MainWindow.setTabOrder(self.startBut, self.pauseBut)
         MainWindow.setTabOrder(self.pauseBut, self.exitBut)
+        
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Supreme Bot", "By Yeram Hwang"))
@@ -543,18 +553,18 @@ class Ui_MainWindow(object):
         self.cityLine.setPlaceholderText(_translate("MainWindow", "City"))
         self.billLoadBut.setText(_translate("MainWindow", "Load"))
         self.ccnLine.setPlaceholderText(_translate("MainWindow", "Credit Card Number"))
-        self.expmCbox.setItemText(0, _translate("MainWindow", "Jan"))
-        self.expmCbox.setItemText(1, _translate("MainWindow", "Feb"))
-        self.expmCbox.setItemText(2, _translate("MainWindow", "Mar"))
-        self.expmCbox.setItemText(3, _translate("MainWindow", "Apr"))
-        self.expmCbox.setItemText(4, _translate("MainWindow", "May"))
-        self.expmCbox.setItemText(5, _translate("MainWindow", "Jun"))
-        self.expmCbox.setItemText(6, _translate("MainWindow", "Jul"))
-        self.expmCbox.setItemText(7, _translate("MainWindow", "Aug"))
-        self.expmCbox.setItemText(8, _translate("MainWindow", "Sept"))
-        self.expmCbox.setItemText(9, _translate("MainWindow", "Oct"))
-        self.expmCbox.setItemText(10, _translate("MainWindow", "Nov"))
-        self.expmCbox.setItemText(11, _translate("MainWindow", "Dec"))
+        self.expmCbox.setItemText(0, _translate("MainWindow", "01-Jan"))
+        self.expmCbox.setItemText(1, _translate("MainWindow", "02-Feb"))
+        self.expmCbox.setItemText(2, _translate("MainWindow", "03-Mar"))
+        self.expmCbox.setItemText(3, _translate("MainWindow", "04-Apr"))
+        self.expmCbox.setItemText(4, _translate("MainWindow", "05-May"))
+        self.expmCbox.setItemText(5, _translate("MainWindow", "06-Jun"))
+        self.expmCbox.setItemText(6, _translate("MainWindow", "07-Jul"))
+        self.expmCbox.setItemText(7, _translate("MainWindow", "08-Aug"))
+        self.expmCbox.setItemText(8, _translate("MainWindow", "09-Sept"))
+        self.expmCbox.setItemText(9, _translate("MainWindow", "10-Oct"))
+        self.expmCbox.setItemText(10, _translate("MainWindow", "11-Nov"))
+        self.expmCbox.setItemText(11, _translate("MainWindow", "12-Dec"))
         self.expyCbox.setItemText(0, _translate("MainWindow", "2020"))
         self.expyCbox.setItemText(1, _translate("MainWindow", "2021"))
         self.expyCbox.setItemText(2, _translate("MainWindow", "2022"))
@@ -661,26 +671,63 @@ class Ui_MainWindow(object):
         
         self.tableWidget.setItem(row, 0, QTableWidgetItem(self.catCbox.currentText()))
         self.tableWidget.setItem(row, 1, QTableWidgetItem(self.sizeCbox.currentText()))
-        self.tableWidget.setItem(row, 2, QTableWidgetItem(self.colorCombo.currentText()))
+        
+        if(self.colorCombo.currentText() == 'Others'):
+            self.tableWidget.setItem(row, 2, QTableWidgetItem(self.ocolorLine.text()))
+        else:
+            self.tableWidget.setItem(row, 2, QTableWidgetItem(self.colorCombo.currentText()))
+            
         self.tableWidget.setItem(row, 3, QTableWidgetItem(self.keyLine.text()))
         
     def removeFromlist(self, MainWindow):
         self.tableWidget.removeRow(self.tableWidget.currentRow())
-        
-    def checkBlank():
-        pass
-        
+
     def colorNotFound(self, MainWindow):
         if(self.colorCombo.currentText() == 'Others'):
             self.ocolorLine.setEnabled(True)
         else:
             self.colorCombo.update()
             self.ocolorLine.setEnabled(False)
+            
+    def loadBill(self, MainWindow):
+    
+        #OpenFile Dialog and select
+        dialog = QFileDialog.getOpenFileName(None, 'Open file',"savedbinfo.xml","XML files (*.xml)")
+        filepath = dialog[0]
+        if(filepath == ''):
+            return
+            
+            
+        # Open .xml file and load the data
+        tree = ET.parse(filepath)
+        root = tree.getroot()
+        self.nameLine.setText(root[0].text)
+        self.emailLine.setText(root[1].text)
+        self.numberLine.setText(root[2].text)
+        self.addressLine.setText(root[3].text)
+        self.aptLine.setText(root[4].text)
+        self.zipLine.setText(root[5].text)
+        self.cityLine.setText(root[6].text)
+        self.stateCbox.setCurrentText(root[7].text)
+        self.countryCbox.setCurrentText(root[8].text)
+        
+    def loadCre(self, MainWindow):
+        dialog = QFileDialog.getOpenFileName(None, 'Open file',"savedcinfo.xml","XML files (*.xml)")
+        filepath = dialog[0]
+        if(filepath == ''):
+            return
+            
+        tree = ET.parse(filepath)
+        root = tree.getroot()
+        
+        self.ccnLine.setText(root[0].text)
+        self.expmCbox.setCurrentIndex(int(root[1].text)-1)
+        self.expyCbox.setCurrentText(root[2].text)
+        self.cvvLine.setText(root[3].text)
         
 
 
 if __name__ == "__main__":
-    import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
