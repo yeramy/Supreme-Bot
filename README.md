@@ -4,9 +4,10 @@ it will automatically searches for desired products, add to cart, and fill out b
 and proceed to confirming payments. You are free to use this but cannot guarantee copping the desired product. 
 Testing phase as of 11/06/2020
 
-
-Requirements:
+# Requirements:
   Python
+  
   webdriver-manger
+  
   PyQt5
   
