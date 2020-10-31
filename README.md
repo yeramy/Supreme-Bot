@@ -13,3 +13,5 @@ Testing phase as of 11/06/2020
   
   -selenium
   
+# Screenshot
+# ![alt text](https://github.com/yeramy/Supreme-Bot/blob/master/Screenshot.png)
