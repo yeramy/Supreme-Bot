@@ -5,13 +5,19 @@ and proceed to confirming payments. You are free to use this but cannot guarante
 Testing phase as of 11/06/2020
 
 # Requirements:
-  -Python
-  
-  -webdriver-manger
-  
-  -PyQt5
-  
-  -selenium
+  Python  
+  webdriver-manger:  
+    ```
+        pip install webdriver-manager  
+    ```  
+  PyQt5:  
+    ```
+       pip install PyQt5  
+    ```  
+  selenium:  
+    ```
+       pip install selenium  
+    ```  
   
 # Screenshot
 # ![alt text](https://github.com/yeramy/Supreme-Bot/blob/master/Screenshot.png)
